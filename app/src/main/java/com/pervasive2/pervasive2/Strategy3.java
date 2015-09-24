@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileWriter;
+
 
 public class Strategy3 extends ActionBarActivity implements LocationListener {
 
@@ -25,6 +28,8 @@ public class Strategy3 extends ActionBarActivity implements LocationListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_strategy3);
+
+
 
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
