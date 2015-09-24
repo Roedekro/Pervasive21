@@ -93,6 +93,18 @@ public class Strategy1 extends AppCompatActivity implements LocationListener {
         }
     }
 
+    public void writeToInternal(String sFileName, String sBody) {
+        FileOutputStream outputStream;
+
+        try {
+            outputStream = openFileOutput(sFileName, Context.MODE_PRIVATE);
+            outputStream.write(sBody.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

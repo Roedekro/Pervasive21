@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,9 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class Strategy3 extends ActionBarActivity implements LocationListener {
@@ -92,9 +95,36 @@ public class Strategy3 extends ActionBarActivity implements LocationListener {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
+    // Gammel position
+    private Location loc = null;
 
+    @Override
+    public void onLocationChanged(Location x){
+        if(loc == null || loc.distanceTo(x) > distanceInterval) {
+            loc = x;
+            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude();
+            generateNoteOnSD("Strategy3Positions", end);
+        }
+    }
+
+    public void generateNoteOnSD(String sFileName, String sBody){
+        try
+        {
+            File root = new File(Environment.getExternalStorageDirectory(), "Strategy3Info");
+            if (!root.exists()) {
+                root.mkdirs();
+            }
+            File gpxfile = new File(root, sFileName);
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append(sBody);
+            writer.flush();
+            writer.close();
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
