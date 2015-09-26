@@ -28,6 +28,7 @@ public class Strategy3 extends Activity implements LocationListener {
     private long distanceInterval = 0;
     private long updateInterval = 0;
     private boolean b = true;
+    private boolean TC = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class Strategy3 extends Activity implements LocationListener {
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         if(locationManager==null) {
-            Log.d("MAIN", "START: LocationManager is NULL");
+            Log.d("MAIN", "MAIN: LocationManager is NULL");
         }
 
         Log.d("MAIN","GPS enabled = "+locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
@@ -95,26 +96,31 @@ public class Strategy3 extends Activity implements LocationListener {
         */
         locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
-                updateInterval, // I strategy 3 skal vi kombinere 1 og 2, så inkluder et update interval
+                0, // I strategy 3 skal vi kombinere 1 og 2, så inkluder et update interval
                 0, // Distance skal filtreres i onLocationChanged()
                 this);
     }
 
-    // Gammel position
+    // Gammel position og tid
     private Location loc = null;
+    private Date date = null;
 
     @Override
     public void onLocationChanged(Location x){
-        if(loc == null || loc.distanceTo(x) > distanceInterval) {
+        Date tempDate = new Date();
+        if((loc == null && date == null) || (loc.distanceTo(x) > distanceInterval && (tempDate.getTime() - date.getTime() >= updateInterval*1000))) {
             loc = x;
-            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude();
+            date = tempDate;
+            SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+            String s = sdf.format(date);
+            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s;
             generateNoteOnSD("Strategy3Positions", end);
         }
     }
 
     public void generateNoteOnSD(String sFileName, String sBody) {
         try {
-            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Strategy1Info");
+            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Pervasive2");
             if (!root.exists()) {
                 root.mkdirs();
             }
@@ -123,7 +129,10 @@ public class Strategy3 extends Activity implements LocationListener {
             writer.append(sBody);
             writer.flush();
             writer.close();
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+            if(!TC) {
+                Toast.makeText(getApplicationContext(), "New Location Saved", Toast.LENGTH_SHORT).show();
+                TC = true;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

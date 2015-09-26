@@ -16,6 +16,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class Strategy4 extends Activity implements SensorEventListener, LocationListener {
@@ -81,7 +83,9 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
     @Override
     public void onLocationChanged(Location x) {
         if(isMoving = true) {
-            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude();
+            SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+            String s = sdf.format(new Date());
+            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s;
             generateNoteOnSD("Strategy4Positions", end);
         }
     }

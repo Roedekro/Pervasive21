@@ -6,12 +6,20 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by ragnar on 24/09/15.
@@ -28,6 +36,8 @@ public class Strategy2 extends Activity {
 
     private ArrayList<Location> receivedLocationUpdates;
     private ArrayList<Location> filteredLocations;
+
+    private boolean TC = false;
 
     private class MyLocationListener implements LocationListener {
 
@@ -115,6 +125,39 @@ public class Strategy2 extends Activity {
             }
         });
 
+        final Button logButton = (Button) findViewById(R.id.logButton);
+        logButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logTime();
+            }
+        });
+    }
+
+    private void logTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+        String s = sdf.format(new Date());
+        generateNoteOnSD("Strategy3LogTime", s);
+    }
+
+    public void generateNoteOnSD(String sFileName, String sBody) {
+        try {
+            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Pervasive2");
+            if (!root.exists()) {
+                root.mkdirs();
+            }
+            File gpxfile = new File(root, sFileName);
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append(sBody);
+            writer.flush();
+            writer.close();
+            if(!TC) {
+                Toast.makeText(getApplicationContext(), "New Location Saved", Toast.LENGTH_SHORT).show();
+                TC = true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

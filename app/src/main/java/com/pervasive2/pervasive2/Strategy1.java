@@ -15,6 +15,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Strategy1 extends Activity implements LocationListener {
 
@@ -40,7 +42,19 @@ public class Strategy1 extends Activity implements LocationListener {
             }
         });
 
+        final Button logButton = (Button) findViewById(R.id.logButton);
+        logButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logTime();
+            }
+        });
+    }
 
+    private void logTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+        String s = sdf.format(new Date());
+        generateNoteOnSD("Strategy3LogTime", s);
     }
 
     private void buttonHelper(int nr) {
@@ -65,7 +79,10 @@ public class Strategy1 extends Activity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location x) {
-        String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude();
+        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+        String s = sdf.format(new Date());
+
+        String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s;
 
         generateNoteOnSD("Stragery1Positions", end);
     }
