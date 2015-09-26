@@ -23,6 +23,12 @@
             android:name=".Strategy1"
             android:label="@string/title_activity_strategy1" >
         </activity>
+        <activity
+            android:name=".Strategy4"
+            android:label="@string/title_activity_strategy4"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

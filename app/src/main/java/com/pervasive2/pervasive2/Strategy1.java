@@ -21,7 +21,7 @@ public class Strategy1 extends Activity implements LocationListener {
     Button btnOK;
     EditText number;
     LocationManager lm;
-    LocationListener ls;
+    boolean TC = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class Strategy1 extends Activity implements LocationListener {
 
     public void generateNoteOnSD(String sFileName, String sBody) {
         try {
-            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Strategy1Info");
+            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Pervasive2");
             if (!root.exists()) {
                 root.mkdirs();
             }
@@ -82,7 +82,10 @@ public class Strategy1 extends Activity implements LocationListener {
             writer.append(sBody);
             writer.flush();
             writer.close();
-            Toast.makeText(getApplicationContext(), "New Location Saved", Toast.LENGTH_SHORT).show();
+            if(!TC) {
+                Toast.makeText(getApplicationContext(), "New Location Saved", Toast.LENGTH_SHORT).show();
+                TC = true;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

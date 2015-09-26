@@ -43,7 +43,14 @@ public class MainActivity extends Activity {
             }
         });
 
-
+        str4 = (Button) findViewById(R.id.strategy4Button);
+        str4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in4 = new Intent(MainActivity.this, Strategy4.class);
+                startActivity(in4);
+            }
+        });
 
     }
 
