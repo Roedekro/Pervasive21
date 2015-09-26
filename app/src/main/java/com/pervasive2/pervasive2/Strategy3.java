@@ -1,15 +1,13 @@
 package com.pervasive2.pervasive2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,7 +18,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-public class Strategy3 extends ActionBarActivity implements LocationListener {
+public class Strategy3 extends Activity implements LocationListener {
 
     private LocationManager locationManager;
     private long speed = 0;
@@ -70,29 +68,6 @@ public class Strategy3 extends ActionBarActivity implements LocationListener {
                 updateInterval, // I strategy 3 skal vi kombinere 1 og 2, så inkluder et update interval
                 0, // Distance skal filtreres i onLocationChanged()
                 this);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_strategy3, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     // Gammel position

@@ -1,11 +1,11 @@
 package com.pervasive2.pervasive2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by ragnar on 24/09/15.
  */
-public class Strategy2 extends ActionBarActivity {
+public class Strategy2 extends Activity {
     private long minTime = 0;
     private float minDist = 0;
 
