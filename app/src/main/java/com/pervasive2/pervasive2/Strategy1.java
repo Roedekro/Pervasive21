@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class Strategy1 extends AppCompatActivity implements LocationListener {
 
@@ -103,6 +104,22 @@ public class Strategy1 extends AppCompatActivity implements LocationListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void thisMethodWorks(String sFileName, String sBody) {
+
+        try {
+            File path = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/Project21/");
+            path.mkdirs();
+            File file = new File(path.getAbsolutePath() + "/" + sFileName + ".txt");
+            OutputStream outputStream = new FileOutputStream(file);
+            outputStream.write(sBody.getBytes());
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
