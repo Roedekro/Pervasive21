@@ -16,6 +16,9 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class Strategy3 extends Activity implements LocationListener {
@@ -24,13 +27,12 @@ public class Strategy3 extends Activity implements LocationListener {
     private long speed = 0;
     private long distanceInterval = 0;
     private long updateInterval = 0;
+    private boolean b = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_strategy3);
-
-
 
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -40,20 +42,48 @@ public class Strategy3 extends Activity implements LocationListener {
 
         Log.d("MAIN","GPS enabled = "+locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
         final Button startButton  = (Button) findViewById(R.id.startButton);
+        final Button logButton = (Button) findViewById(R.id.logButton);
         final TextView distanceView = (TextView) findViewById(R.id.distanceText);
         final TextView speedView = (TextView) findViewById(R.id.speedText);
+
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String dString = distanceView.getText().toString();
-                distanceInterval = Long.parseLong(dString);
-                String sString = speedView.getText().toString();
-                speed = Long.parseLong(sString);
-                updateInterval = distanceInterval / speed;
-                startUpdates();
+                if(b) {
+                    startButton.setText("Stop");
+                    String dString = distanceView.getText().toString();
+                    distanceInterval = Long.parseLong(dString);
+                    String sString = speedView.getText().toString();
+                    speed = Long.parseLong(sString);
+                    updateInterval = distanceInterval / speed;
+                    startUpdates();
+                    b = false;
+                }
+                else {
+                    startButton.setText("Start");
+                    stopUpdates();
+                    b = true;
+                }
             }
         });
+
+        logButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logTime();
+            }
+        });
+    }
+
+    private void logTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+        String s = sdf.format(new Date());
+        generateNoteOnSD("Strategy3LogTime", s);
+    }
+
+    private void stopUpdates() {
+        locationManager.removeUpdates(this);
     }
 
     private void startUpdates() {
@@ -82,10 +112,9 @@ public class Strategy3 extends Activity implements LocationListener {
         }
     }
 
-    public void generateNoteOnSD(String sFileName, String sBody){
-        try
-        {
-            File root = new File(Environment.getExternalStorageDirectory(), "Strategy3Info");
+    public void generateNoteOnSD(String sFileName, String sBody) {
+        try {
+            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Strategy1Info");
             if (!root.exists()) {
                 root.mkdirs();
             }
@@ -95,9 +124,7 @@ public class Strategy3 extends Activity implements LocationListener {
             writer.flush();
             writer.close();
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
