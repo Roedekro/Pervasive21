@@ -82,10 +82,9 @@ public class Strategy3 extends Activity implements LocationListener {
         }
     }
 
-    public void generateNoteOnSD(String sFileName, String sBody){
-        try
-        {
-            File root = new File(Environment.getExternalStorageDirectory(), "Strategy3Info");
+    public void generateNoteOnSD(String sFileName, String sBody) {
+        try {
+            File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Strategy1Info");
             if (!root.exists()) {
                 root.mkdirs();
             }
@@ -94,10 +93,8 @@ public class Strategy3 extends Activity implements LocationListener {
             writer.append(sBody);
             writer.flush();
             writer.close();
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-        }
-        catch(IOException e)
-        {
+            Toast.makeText(getApplicationContext(), "New Location Saved", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

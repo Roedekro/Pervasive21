@@ -13,10 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 
 public class Strategy1 extends Activity implements LocationListener {
 
@@ -37,7 +35,8 @@ public class Strategy1 extends Activity implements LocationListener {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonHelper(Integer.parseInt(number.getText().toString()));
+                   buttonHelper(Integer.parseInt(number.getText().toString()));
+
             }
         });
 
@@ -68,8 +67,9 @@ public class Strategy1 extends Activity implements LocationListener {
     public void onLocationChanged(Location x) {
         String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude();
 
-        thisMethodWorks("Stragery1Positions", end);
+        generateNoteOnSD("Stragery1Positions", end);
     }
+
 
     public void generateNoteOnSD(String sFileName, String sBody) {
         try {
@@ -82,38 +82,10 @@ public class Strategy1 extends Activity implements LocationListener {
             writer.append(sBody);
             writer.flush();
             writer.close();
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "New Location Saved", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void writeToInternal(String sFileName, String sBody) {
-        FileOutputStream outputStream;
-
-        try {
-            outputStream = openFileOutput(sFileName, Context.MODE_PRIVATE);
-            outputStream.write(sBody.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void thisMethodWorks(String sFileName, String sBody) {
-
-        try {
-            File path = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/Project21/");
-            path.mkdirs();
-            File file = new File(path.getAbsolutePath() + "/" + sFileName + ".txt");
-            OutputStream outputStream = new FileOutputStream(file);
-            outputStream.write(sBody.getBytes());
-            outputStream.flush();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 }
