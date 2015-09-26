@@ -42,15 +42,14 @@ public class Strategy1 extends Activity implements LocationListener {
         });
 
 
-
-
     }
 
-    private void buttonHelper(int nr){
+    private void buttonHelper(int nr) {
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, nr, 0, this);
     }
+
     @Override
-    public void onProviderEnabled(String abe){
+    public void onProviderEnabled(String abe) {
 
     }
 
@@ -61,20 +60,19 @@ public class Strategy1 extends Activity implements LocationListener {
 
 
     @Override
-    public void onStatusChanged(String x, int y, Bundle z){
+    public void onStatusChanged(String x, int y, Bundle z) {
 
     }
 
     @Override
-    public void onLocationChanged(Location x){
+    public void onLocationChanged(Location x) {
         String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude();
 
-        generateNoteOnSD("Stragery1Positions", end);
+        thisMethodWorks("Stragery1Positions", end);
     }
 
-    public void generateNoteOnSD(String sFileName, String sBody){
-        try
-        {
+    public void generateNoteOnSD(String sFileName, String sBody) {
+        try {
             File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Strategy1Info");
             if (!root.exists()) {
                 root.mkdirs();
@@ -85,9 +83,7 @@ public class Strategy1 extends Activity implements LocationListener {
             writer.flush();
             writer.close();
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -104,8 +100,7 @@ public class Strategy1 extends Activity implements LocationListener {
         }
     }
 
-<<<<<<< HEAD
-=======
+
     public void thisMethodWorks(String sFileName, String sBody) {
 
         try {
@@ -121,27 +116,4 @@ public class Strategy1 extends Activity implements LocationListener {
         }
 
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_strategy1, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
->>>>>>> origin/master
 }

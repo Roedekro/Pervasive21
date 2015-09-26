@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        str2 = (Button) findViewById(R.id.strategy1Button);
+        str2 = (Button) findViewById(R.id.strategy2Button);
         str2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        str3 = (Button) findViewById(R.id.strategy1Button);
+        str3 = (Button) findViewById(R.id.strategy3Button);
         str3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
