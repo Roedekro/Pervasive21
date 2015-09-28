@@ -11,6 +11,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
@@ -25,10 +28,13 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
     private SensorManager senSM;
     private Sensor senAC;
     private LocationManager lm;
+    private EditText et;
+    private Button btn;
+    private boolean go = false;
 
     private long lastUpdate = 0;
     private float x,y,z,last_x, last_y, last_z;
-    private static final int SHAKE_THRESHOLD = 600;
+    private static final int SHAKE_THRESHOLD = 200;
 
     private boolean isMoving = false;
     private boolean TC = false;
@@ -44,14 +50,29 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
         senSM = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAC = senSM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         senSM.registerListener(this, senAC, SensorManager.SENSOR_DELAY_NORMAL);
+
+        btn = (Button) findViewById(R.id.btn);
+        et = (EditText) findViewById(R.id.editText);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonHelper(Integer.parseInt(et.getText().toString()));
+            }
+        });
+
     }
 
+    private void buttonHelper(int nr) {
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, nr, this);
+        go = true;
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         Sensor mySensor = event.sensor;
 
-        if(mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+        if(mySensor.getType() == Sensor.TYPE_ACCELEROMETER && go == true) {
             x = event.values[0];
             y = event.values[1];
             z = event.values[2];
@@ -67,6 +88,8 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
 
             if(speed > SHAKE_THRESHOLD) {
                 isMoving = true;
+            } else {
+                isMoving = false;
             }
 
             last_x = x;
@@ -82,7 +105,7 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
 
     @Override
     public void onLocationChanged(Location x) {
-        if(isMoving = true) {
+        if(isMoving == true && go == true) {
             SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
             String s = sdf.format(new Date());
             String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s;
@@ -112,7 +135,7 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
                 root.mkdirs();
             }
             File gpxfile = new File(root, sFileName);
-            FileWriter writer = new FileWriter(gpxfile);
+            FileWriter writer = new FileWriter(gpxfile, true);
             writer.append(sBody);
             writer.flush();
             writer.close();

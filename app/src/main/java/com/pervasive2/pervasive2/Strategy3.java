@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 
@@ -61,6 +60,7 @@ public class Strategy3 extends Activity implements LocationListener {
                     startUpdates();
                     b = false;
                 }
+
                 else {
                     startButton.setText("Start");
                     stopUpdates();
@@ -125,7 +125,7 @@ public class Strategy3 extends Activity implements LocationListener {
                 root.mkdirs();
             }
             File gpxfile = new File(root, sFileName);
-            FileWriter writer = new FileWriter(gpxfile);
+            FileWriter writer = new FileWriter(gpxfile, true);
             writer.append(sBody);
             writer.flush();
             writer.close();

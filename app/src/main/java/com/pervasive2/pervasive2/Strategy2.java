@@ -147,7 +147,7 @@ public class Strategy2 extends Activity {
                 root.mkdirs();
             }
             File gpxfile = new File(root, sFileName);
-            FileWriter writer = new FileWriter(gpxfile);
+            FileWriter writer = new FileWriter(gpxfile, true);
             writer.append(sBody);
             writer.flush();
             writer.close();

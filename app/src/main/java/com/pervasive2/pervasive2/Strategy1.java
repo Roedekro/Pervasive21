@@ -24,6 +24,7 @@ public class Strategy1 extends Activity implements LocationListener {
     EditText number;
     LocationManager lm;
     boolean TC = false;
+    boolean go = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class Strategy1 extends Activity implements LocationListener {
 
     private void buttonHelper(int nr) {
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, nr, 0, this);
+        go = true;
     }
 
     @Override
@@ -79,12 +81,14 @@ public class Strategy1 extends Activity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location x) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
-        String s = sdf.format(new Date());
+        if(go == true) {
+            SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+            String s = sdf.format(new Date());
 
-        String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s;
+            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s;
 
-        generateNoteOnSD("Stragery1Positions", end);
+            generateNoteOnSD("Stragery1Positions", end);
+        }
     }
 
 
@@ -95,7 +99,7 @@ public class Strategy1 extends Activity implements LocationListener {
                 root.mkdirs();
             }
             File gpxfile = new File(root, sFileName);
-            FileWriter writer = new FileWriter(gpxfile);
+            FileWriter writer = new FileWriter(gpxfile, true);
             writer.append(sBody);
             writer.flush();
             writer.close();
