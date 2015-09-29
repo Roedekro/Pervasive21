@@ -1,12 +1,18 @@
 package com.pervasive2.pervasive2;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +34,23 @@ public class Strategy3 extends Activity implements LocationListener {
     private long updateInterval = 0;
     private boolean b = true;
     private boolean TC = false;
+    private AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+
+    // Klasse der bliver kaldt igennem alarmen
+    private BroadcastReceiver localReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            startUpdates();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_strategy3);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(localReciever,
+                new IntentFilter("finalCountdown"));
 
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -88,12 +106,6 @@ public class Strategy3 extends Activity implements LocationListener {
     }
 
     private void startUpdates() {
-        /*
-        First parameter: Requesting updates from GPS_Provider.
-        Second parameter: Time in milliseconds between updates.
-        Third parameter: Minimum distance moved between updates in meters.
-        Fourth parameter: The LocationListener called upon GPS updates.
-        */
         locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 0, // I strategy 3 skal vi kombinere 1 og 2, så inkluder et update interval
@@ -107,14 +119,22 @@ public class Strategy3 extends Activity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location x){
-        Date tempDate = new Date();
-        if((loc == null && date == null) || (loc.distanceTo(x) > distanceInterval && (tempDate.getTime() - date.getTime() >= updateInterval*1000))) {
+        if(loc == null || loc.distanceTo(x) > distanceInterval) {
+
+            // Vi har fået vores update, så stop GPSen.
+            stopUpdates();
+
+            // Opdater loc og log vores position.
             loc = x;
-            date = tempDate;
             SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
-            String s = sdf.format(date);
+            String s = sdf.format(new Date());
             String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s;
             generateNoteOnSD("Strategy3Positions", end);
+
+            // Vent indtil der er gået "updateInterval" og slå GPS til igen.
+            Intent newIntent = new Intent("finalCountdown");
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, newIntent,0);
+            am.set(AlarmManager.RTC, System.currentTimeMillis()+(updateInterval*1000), pendingIntent);
         }
     }
 
@@ -151,5 +171,10 @@ public class Strategy3 extends Activity implements LocationListener {
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(localReciever);
     }
 }

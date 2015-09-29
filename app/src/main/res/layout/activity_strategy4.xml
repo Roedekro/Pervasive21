@@ -6,41 +6,43 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.pervasive2.pervasive2.Strategy4">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Distance"
-        android:textSize="50dp"
-        android:id="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="49dp" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/editText"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="38dp" />
+        android:id="@+id/distanceText"
+        android:text="Distance"
+        android:layout_above="@+id/speedText"
+        android:layout_alignStart="@+id/speedText"
+        android:layout_marginBottom="99dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Log"
         android:id="@+id/logButton"
+        android:layout_marginBottom="45dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="90dp" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GO"
         android:id="@+id/btn"
+        android:layout_above="@+id/logButton"
+        android:layout_alignStart="@+id/logButton"
+        android:layout_marginBottom="48dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/speedText"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="Speed" />
 
 </RelativeLayout>

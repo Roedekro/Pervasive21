@@ -1,7 +1,12 @@
 package com.pervasive2.pervasive2;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -11,9 +16,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -27,7 +34,7 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
 
     private SensorManager senSM;
     private Sensor senAC;
-    private LocationManager lm;
+    private LocationManager locationManager;
     private EditText et;
     private Button btn;
     private boolean go = false;
@@ -38,34 +45,74 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
 
     private boolean isMoving = false;
     private boolean TC = false;
+    private AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+    private boolean b = true;
+    private long distanceInterval;
+    private long updateInterval;
+    private long speed;
+
+    // Klasse der bliver kaldt igennem alarmen
+    private BroadcastReceiver localReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            while(!isMoving) {}
+            startUpdates();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_strategy4);
 
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(localReciever,
+                new IntentFilter("strat4"));
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         senSM = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAC = senSM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         senSM.registerListener(this, senAC, SensorManager.SENSOR_DELAY_NORMAL);
 
         btn = (Button) findViewById(R.id.btn);
-        et = (EditText) findViewById(R.id.editText);
+        final TextView distanceView = (TextView) findViewById(R.id.distanceText);
+        final TextView speedView = (TextView) findViewById(R.id.speedText);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonHelper(Integer.parseInt(et.getText().toString()));
+                if(b) {
+                    btn.setText("Stop");
+                    String dString = distanceView.getText().toString();
+                    distanceInterval = Long.parseLong(dString);
+                    String sString = speedView.getText().toString();
+                    speed = Long.parseLong(sString);
+                    updateInterval = distanceInterval / speed;
+                    startUpdates();
+                    b = false;
+                    go = true;
+                }
+
+                else {
+                    btn.setText("Start");
+                    stopUpdates();
+                    b = true;
+                }
             }
         });
 
     }
 
-    private void buttonHelper(int nr) {
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, nr, this);
-        go = true;
+    private void stopUpdates() {
+        locationManager.removeUpdates(this);
+    }
+
+    private void startUpdates() {
+        locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                0, // I strategy 3 skal vi kombinere 1 og 2, så inkluder et update interval
+                0, // Distance skal filtreres i onLocationChanged()
+                this);
     }
 
     @Override
@@ -103,13 +150,26 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
 
     }
 
+    private Location loc = null;
+
     @Override
     public void onLocationChanged(Location x) {
-        if(isMoving == true && go == true) {
+        if(loc == null || loc.distanceTo(x) > distanceInterval) {
+
+            // Vi har fået vores update, så stop GPSen.
+            stopUpdates();
+
+            // Opdater loc og log vores position.
+            loc = x;
             SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
             String s = sdf.format(new Date());
             String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s;
-            generateNoteOnSD("Strategy4Positions", end);
+            generateNoteOnSD("Strategy3Positions", end);
+
+            // Vent indtil der er gået "updateInterval" og slå GPS til igen.
+            Intent newIntent = new Intent("strat4");
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, newIntent,0);
+            am.set(AlarmManager.RTC, System.currentTimeMillis() + (updateInterval * 1000), pendingIntent);
         }
     }
 
