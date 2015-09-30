@@ -16,6 +16,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,8 +62,8 @@ public class Strategy3 extends Activity implements LocationListener {
         Log.d("MAIN","GPS enabled = "+locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
         final Button startButton  = (Button) findViewById(R.id.startButton);
         final Button logButton = (Button) findViewById(R.id.logButton);
-        final TextView distanceView = (TextView) findViewById(R.id.distanceText);
-        final TextView speedView = (TextView) findViewById(R.id.speedText);
+        final EditText distanceView = (EditText) findViewById(R.id.distanceText);
+        final EditText speedView = (EditText) findViewById(R.id.speedText);
 
 
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -108,17 +109,18 @@ public class Strategy3 extends Activity implements LocationListener {
     private void startUpdates() {
         locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
-                0, // I strategy 3 skal vi kombinere 1 og 2, så inkluder et update interval
-                0, // Distance skal filtreres i onLocationChanged()
+                0,
+                0,
                 this);
     }
 
     // Gammel position og tid
     private Location loc = null;
-    private Date date = null;
+    private int fix = 0;
 
     @Override
     public void onLocationChanged(Location x){
+        fix++;
         if(loc == null || loc.distanceTo(x) > distanceInterval) {
 
             // Vi har fået vores update, så stop GPSen.
@@ -128,8 +130,8 @@ public class Strategy3 extends Activity implements LocationListener {
             loc = x;
             SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
             String s = sdf.format(new Date());
-            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s;
-            generateNoteOnSD("Strategy3Positions", end);
+            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s + " GPSFixes: " + fix;
+            generateNoteOnSD("Strategy3", end);
 
             // Vent indtil der er gået "updateInterval" og slå GPS til igen.
             Intent newIntent = new Intent("finalCountdown");

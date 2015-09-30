@@ -75,8 +75,8 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
         senSM.registerListener(this, senAC, SensorManager.SENSOR_DELAY_NORMAL);
 
         btn = (Button) findViewById(R.id.btn);
-        final TextView distanceView = (TextView) findViewById(R.id.distanceText);
-        final TextView speedView = (TextView) findViewById(R.id.speedText);
+        final EditText distanceView = (EditText) findViewById(R.id.distanceText);
+        final EditText speedView = (EditText) findViewById(R.id.speedText);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,8 +110,8 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
     private void startUpdates() {
         locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
-                0, // I strategy 3 skal vi kombinere 1 og 2, så inkluder et update interval
-                0, // Distance skal filtreres i onLocationChanged()
+                0,
+                0,
                 this);
     }
 
@@ -151,9 +151,11 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
     }
 
     private Location loc = null;
+    private int fix = 0;
 
     @Override
     public void onLocationChanged(Location x) {
+        fix++;
         if(loc == null || loc.distanceTo(x) > distanceInterval) {
 
             // Vi har fået vores update, så stop GPSen.
@@ -163,8 +165,8 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
             loc = x;
             SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
             String s = sdf.format(new Date());
-            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s;
-            generateNoteOnSD("Strategy3Positions", end);
+            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s + " GPSFixes: " + fix;
+            generateNoteOnSD("Strategy4", end);
 
             // Vent indtil der er gået "updateInterval" og slå GPS til igen.
             Intent newIntent = new Intent("strat4");

@@ -79,15 +79,18 @@ public class Strategy1 extends Activity implements LocationListener {
 
     }
 
+    private int fix = 0;
+
     @Override
     public void onLocationChanged(Location x) {
+        fix++;
         if(go == true) {
             SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
             String s = sdf.format(new Date());
 
-            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s;
+            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s  + " GPSFixes: " + fix;
 
-            generateNoteOnSD("Stragery1Positions", end);
+            generateNoteOnSD("Strategy1", end);
         }
     }
 
