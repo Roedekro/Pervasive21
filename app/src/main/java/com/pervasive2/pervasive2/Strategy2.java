@@ -99,8 +99,9 @@ public class Strategy2 extends Activity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location x){
-        fix++;
         if(loc == null || loc.distanceTo(x) > distanceInterval) {
+
+            fix++;
 
             // Opdater loc og log vores position.
             loc = x;

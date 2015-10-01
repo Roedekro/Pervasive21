@@ -129,7 +129,7 @@ public class Strategy1 extends Activity implements LocationListener {
         fix++;
         stopUpdates();
 
-        Toast.makeText(getApplicationContext(), "POSITION!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "POSITION!", Toast.LENGTH_SHORT).show();
 
         SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
         String s = sdf.format(new Date());

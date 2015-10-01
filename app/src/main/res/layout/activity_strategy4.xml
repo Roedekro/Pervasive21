@@ -13,9 +13,9 @@
         android:ems="10"
         android:id="@+id/distanceText"
         android:text="Distance"
-        android:layout_above="@+id/speedText"
-        android:layout_alignStart="@+id/speedText"
-        android:layout_marginBottom="99dp" />
+        android:layout_marginBottom="74dp"
+        android:layout_above="@+id/btn"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -31,18 +31,7 @@
         android:layout_height="wrap_content"
         android:text="GO"
         android:id="@+id/btn"
-        android:layout_above="@+id/logButton"
-        android:layout_alignStart="@+id/logButton"
-        android:layout_marginBottom="48dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/speedText"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:text="Speed" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

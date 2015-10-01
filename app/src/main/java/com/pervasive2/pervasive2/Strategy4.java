@@ -52,19 +52,6 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
     private long updateInterval;
     private long speed;
 
-    // Klasse der bliver kaldt igennem alarmen
-    private BroadcastReceiver localReciever = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(!isMoving) {
-                // Bevæger os ikke, kald igen om set sekund.
-                Intent newIntent = new Intent("strat4");
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, newIntent,0);
-                am.set(AlarmManager.RTC, System.currentTimeMillis() + (1000), pendingIntent);
-            }
-            else {startUpdates();}
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +60,6 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
 
         am = (AlarmManager)getSystemService(ALARM_SERVICE);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(localReciever,
-                new IntentFilter("strat4"));
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -84,7 +69,7 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
 
         btn = (Button) findViewById(R.id.btn);
         final EditText distanceView = (EditText) findViewById(R.id.distanceText);
-        final EditText speedView = (EditText) findViewById(R.id.speedText);
+
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,9 +78,7 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
                     btn.setText("Stop");
                     String dString = distanceView.getText().toString();
                     distanceInterval = Long.parseLong(dString);
-                    String sString = speedView.getText().toString();
-                    speed = Long.parseLong(sString);
-                    updateInterval = distanceInterval / speed;
+
                     startUpdates();
                     b = false;
                     go = true;
@@ -177,24 +160,14 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
 
     @Override
     public void onLocationChanged(Location x) {
-        fix++;
-        if(loc == null || loc.distanceTo(x) > distanceInterval) {
-
-            // Vi har fået vores update, så stop GPSen.
-            stopUpdates();
-
+        if(loc == null || (loc.distanceTo(x) > distanceInterval) && isMoving) {
+            fix++;
             // Opdater loc og log vores position.
             loc = x;
             SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
             String s = sdf.format(new Date());
             String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s + " GPSFixes: " + fix;
             generateNoteOnSD("Strategy4.txt", end);
-
-            // Vent indtil der er gået "updateInterval" og slå GPS til igen.
-            Intent newIntent = new Intent(this,Receiver.class);
-            newIntent.putExtra("value",4);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, newIntent,0);
-            am.set(AlarmManager.RTC, System.currentTimeMillis() + (updateInterval * 1000), pendingIntent);
         }
     }
 
@@ -233,11 +206,5 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(localReciever);
-        super.onDestroy();
     }
 }

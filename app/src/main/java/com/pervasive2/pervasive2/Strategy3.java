@@ -123,8 +123,10 @@ public class Strategy3 extends Activity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location x){
-        fix++;
+
         if(loc == null || loc.distanceTo(x) > distanceInterval) {
+
+            fix++;
 
             // Vi har fået vores update, så stop GPSen.
             stopUpdates();
