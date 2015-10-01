@@ -1,0 +1,5 @@
+Latitude: 56.17180962 Longitude: 10.18799172 Time: 143743 GPSFixes: 1
+Latitude: 56.17225474 Longitude: 10.18811547 Time: 143830 GPSFixes: 2
+Latitude: 56.17278436 Longitude: 10.1882997 Time: 143903 GPSFixes: 3
+Latitude: 56.17365919 Longitude: 10.18882101 Time: 143956 GPSFixes: 4
+Latitude: 56.17347412 Longitude: 10.18957582 Time: 144050 GPSFixes: 5
