@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -118,8 +119,10 @@ public class Strategy2 extends Activity implements LocationListener {
                 root.mkdirs();
             }
             File gpxfile = new File(root, sFileName);
-            FileWriter writer = new FileWriter(gpxfile, true);
-            writer.append(sBody+"\n");
+            FileWriter fw = new FileWriter(gpxfile, true);
+            BufferedWriter writer = new BufferedWriter(fw);
+            writer.append(sBody);
+            writer.newLine();
             writer.flush();
             writer.close();
             if(!TC) {

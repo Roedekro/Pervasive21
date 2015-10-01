@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -218,8 +219,10 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
                 root.mkdirs();
             }
             File gpxfile = new File(root, sFileName);
-            FileWriter writer = new FileWriter(gpxfile, true);
-            writer.append(sBody+"\n");
+            FileWriter fw = new FileWriter(gpxfile, true);
+            BufferedWriter writer = new BufferedWriter(fw);
+            writer.append(sBody);
+            writer.newLine();
             writer.flush();
             writer.close();
             if(!TC) {

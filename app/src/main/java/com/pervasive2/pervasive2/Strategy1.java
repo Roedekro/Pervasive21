@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -56,7 +57,6 @@ public class Strategy1 extends Activity implements LocationListener {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         number = (EditText) findViewById(R.id.configText);
-        updateInterval = Long.parseLong(number.getText().toString());
 
         btnOK = (Button) findViewById(R.id.okBtn);
         btnOK.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +129,8 @@ public class Strategy1 extends Activity implements LocationListener {
         fix++;
         stopUpdates();
 
+        Toast.makeText(getApplicationContext(), "POSITION!", Toast.LENGTH_SHORT).show();
+
         SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
         String s = sdf.format(new Date());
 
@@ -136,7 +138,8 @@ public class Strategy1 extends Activity implements LocationListener {
 
         generateNoteOnSD("Strategy1.txt", end);
 
-        Intent newIntent = new Intent("strat1");
+        Intent newIntent = new Intent(this,Receiver.class);
+        newIntent.putExtra("value",1);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, newIntent,0);
         am.set(AlarmManager.RTC, System.currentTimeMillis()+(updateInterval*1000), pendingIntent);
 
@@ -150,8 +153,10 @@ public class Strategy1 extends Activity implements LocationListener {
                 root.mkdirs();
             }
             File gpxfile = new File(root, sFileName);
-            FileWriter writer = new FileWriter(gpxfile, true);
-            writer.append(sBody+"\n");
+            FileWriter fw = new FileWriter(gpxfile, true);
+            BufferedWriter writer = new BufferedWriter(fw);
+            writer.append(sBody);
+            writer.newLine();
             writer.flush();
             writer.close();
             if(!TC) {
