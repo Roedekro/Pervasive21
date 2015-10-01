@@ -4,6 +4,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_strategy1">Strategy1</string>
+    <string name="title_activity_strategy2">Strategy2</string>
+    <string name="title_activity_strategy3">Strategy3</string>
     <string name="title_activity_strategy4">Strategy4</string>
     <string name="title_activity_kmlbuilder">KMLBuilderActivity</string>
 </resources>

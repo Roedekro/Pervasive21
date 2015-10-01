@@ -36,9 +36,9 @@
         android:layout_height="wrap_content"
         android:text="Strategy 4"
         android:id="@+id/strategy4Button"
-        android:layout_marginTop="28dp"
-        android:layout_below="@+id/strategy3Button"
-        android:layout_alignStart="@+id/strategy3Button" />
+        android:layout_above="@+id/kmlButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp" />
 
     <Button
         android:layout_width="wrap_content"

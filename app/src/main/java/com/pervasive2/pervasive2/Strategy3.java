@@ -99,7 +99,7 @@ public class Strategy3 extends Activity implements LocationListener {
     private void logTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
         String s = sdf.format(new Date());
-        generateNoteOnSD("Strategy3LogTime", s);
+        generateNoteOnSD("Strategy3LogTime.txt", s);
     }
 
     private void stopUpdates() {
@@ -131,7 +131,7 @@ public class Strategy3 extends Activity implements LocationListener {
             SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
             String s = sdf.format(new Date());
             String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s + " GPSFixes: " + fix;
-            generateNoteOnSD("Strategy3", end);
+            generateNoteOnSD("Strategy3.txt", end);
 
             // Vent indtil der er gået "updateInterval" og slå GPS til igen.
             Intent newIntent = new Intent("finalCountdown");
@@ -148,7 +148,7 @@ public class Strategy3 extends Activity implements LocationListener {
             }
             File gpxfile = new File(root, sFileName);
             FileWriter writer = new FileWriter(gpxfile, true);
-            writer.append(sBody);
+            writer.append(sBody+"\n");
             writer.flush();
             writer.close();
             if(!TC) {
@@ -178,5 +178,6 @@ public class Strategy3 extends Activity implements LocationListener {
     @Override
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(localReciever);
+        super.onDestroy();
     }
 }

@@ -24,6 +24,14 @@
             android:label="@string/title_activity_strategy1" >
         </activity>
         <activity
+            android:name=".Strategy2"
+            android:label="@string/title_activity_strategy2" >
+        </activity>
+        <activity
+            android:name=".Strategy3"
+            android:label="@string/title_activity_strategy3" >
+        </activity>
+        <activity
             android:name=".Strategy4"
             android:configChanges="orientation"
             android:label="@string/title_activity_strategy4"

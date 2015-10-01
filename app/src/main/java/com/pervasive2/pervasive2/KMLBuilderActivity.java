@@ -166,7 +166,7 @@ public class KMLBuilderActivity extends ActionBarActivity {
         }
 
         final TextView text = (TextView) findViewById(R.id.hello);
-        text.setText("DONE!!!");
+        text.setText("DONE!!!                                                                                                                                                                                                                                                                                                                                                      ");
 }
 
 

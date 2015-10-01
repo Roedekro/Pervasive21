@@ -31,7 +31,7 @@ public class Strategy2 extends Activity implements LocationListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_strategy3);
+        setContentView(R.layout.activity_strategy2);
 
 
 
@@ -45,7 +45,6 @@ public class Strategy2 extends Activity implements LocationListener {
         final Button startButton  = (Button) findViewById(R.id.startButton);
         final Button logButton = (Button) findViewById(R.id.logButton);
         final EditText distanceView = (EditText) findViewById(R.id.distanceText);
-        final EditText speedView = (EditText) findViewById(R.id.speedText);
 
 
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -55,9 +54,6 @@ public class Strategy2 extends Activity implements LocationListener {
                     startButton.setText("Stop");
                     String dString = distanceView.getText().toString();
                     distanceInterval = Long.parseLong(dString);
-                    String sString = speedView.getText().toString();
-                    speed = Long.parseLong(sString);
-                    updateInterval = distanceInterval / speed;
                     startUpdates();
                     b = false;
                 }
@@ -81,7 +77,7 @@ public class Strategy2 extends Activity implements LocationListener {
     private void logTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
         String s = sdf.format(new Date());
-        generateNoteOnSD("Strategy2LogTime", s);
+        generateNoteOnSD("Strategy2LogTime.txt", s);
     }
 
     private void stopUpdates() {
@@ -110,7 +106,7 @@ public class Strategy2 extends Activity implements LocationListener {
             SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
             String s = sdf.format(new Date());
             String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s + " GPSFixes: " + fix;
-            generateNoteOnSD("Strategy2", end);
+            generateNoteOnSD("Strategy2.txt", end);
 
         }
     }
@@ -123,7 +119,7 @@ public class Strategy2 extends Activity implements LocationListener {
             }
             File gpxfile = new File(root, sFileName);
             FileWriter writer = new FileWriter(gpxfile, true);
-            writer.append(sBody);
+            writer.append(sBody+"\n");
             writer.flush();
             writer.close();
             if(!TC) {
@@ -149,9 +145,4 @@ public class Strategy2 extends Activity implements LocationListener {
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
-
-    @Override
-    protected void onDestroy() {
-    }
-
 }

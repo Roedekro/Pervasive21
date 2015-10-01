@@ -106,6 +106,20 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
             }
         });
 
+        final Button logButton = (Button) findViewById(R.id.logButton);
+        logButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logTime();
+            }
+        });
+
+    }
+
+    private void logTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+        String s = sdf.format(new Date());
+        generateNoteOnSD("Strategy4LogTime.txt", s);
     }
 
     private void stopUpdates() {
@@ -171,7 +185,7 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
             SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
             String s = sdf.format(new Date());
             String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s + " GPSFixes: " + fix;
-            generateNoteOnSD("Strategy4", end);
+            generateNoteOnSD("Strategy4.txt", end);
 
             // Vent indtil der er gået "updateInterval" og slå GPS til igen.
             Intent newIntent = new Intent("strat4");
@@ -203,7 +217,7 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
             }
             File gpxfile = new File(root, sFileName);
             FileWriter writer = new FileWriter(gpxfile, true);
-            writer.append(sBody);
+            writer.append(sBody+"\n");
             writer.flush();
             writer.close();
             if(!TC) {
@@ -213,5 +227,11 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(localReciever);
+        super.onDestroy();
     }
 }

@@ -32,6 +32,7 @@ public class Strategy1 extends Activity implements LocationListener {
     LocationManager locationManager;
     boolean TC = false;
     boolean go = false;
+    private boolean b = true;
     private AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
 
     // Klasse der bliver kaldt igennem alarmen
@@ -59,7 +60,19 @@ public class Strategy1 extends Activity implements LocationListener {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                   startUpdates();
+                if(b) {
+                    btnOK.setText("Stop");
+                    String dString = number.getText().toString();
+                    updateInterval = Long.parseLong(dString);
+                    startUpdates();
+                    b = false;
+                }
+
+                else {
+                    btnOK.setText("Start");
+                    stopUpdates();
+                    b = true;
+                }
 
             }
         });
@@ -88,7 +101,7 @@ public class Strategy1 extends Activity implements LocationListener {
     private void logTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
         String s = sdf.format(new Date());
-        generateNoteOnSD("Strategy1LogTime", s);
+        generateNoteOnSD("Strategy1LogTime.txt", s);
     }
 
     @Override
@@ -119,7 +132,7 @@ public class Strategy1 extends Activity implements LocationListener {
 
         String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s  + " GPSFixes: " + fix;
 
-        generateNoteOnSD("Strategy1", end);
+        generateNoteOnSD("Strategy1.txt", end);
 
         Intent newIntent = new Intent("strat1");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, newIntent,0);
@@ -136,7 +149,7 @@ public class Strategy1 extends Activity implements LocationListener {
             }
             File gpxfile = new File(root, sFileName);
             FileWriter writer = new FileWriter(gpxfile, true);
-            writer.append(sBody);
+            writer.append(sBody+"\n");
             writer.flush();
             writer.close();
             if(!TC) {
