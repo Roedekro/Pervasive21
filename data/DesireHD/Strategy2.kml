@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Placemark><name>1</name><description>Numer of GPS fixes: 1 Time: 142746</description><Point>
+<coordinates>10.18774966,56.17164828,0</coordinates>
+</Point></Placemark><Placemark><name>2</name><description>Numer of GPS fixes: 2 Time: 142817</description><Point>
+<coordinates>10.18785712,56.17210171,0</coordinates>
+</Point></Placemark><Placemark><name>3</name><description>Numer of GPS fixes: 3 Time: 142846</description><Point>
+<coordinates>10.1881177,56.17254829,0</coordinates>
+</Point></Placemark><Placemark><name>4</name><description>Numer of GPS fixes: 4 Time: 142918</description><Point>
+<coordinates>10.18829424,56.17300713,0</coordinates>
+</Point></Placemark><Placemark><name>5</name><description>Numer of GPS fixes: 5 Time: 143000</description><Point>
+<coordinates>10.1885502,56.17343793,0</coordinates>
+</Point></Placemark><Placemark><name>6</name><description>Numer of GPS fixes: 6 Time: 143047</description><Point>
+<coordinates>10.18935959,56.17351979,0</coordinates>
+</Point></Placemark><Placemark><name>7</name><description>Numer of GPS fixes: 7 Time: 143111</description><Point>
+<coordinates>10.19016807,56.17340215,0</coordinates>
+</Point></Placemark><Placemark><name>8</name><description>Numer of GPS fixes: 8 Time: 143144</description><Point>
+<coordinates>10.19094921,56.17326975,0</coordinates>
+</Point></Placemark><Placemark><name>9</name><description>Numer of GPS fixes: 9 Time: 143227</description><Point>
+<coordinates>10.19089721,56.17282067,0</coordinates>
+</Point></Placemark><Placemark><name>10</name><description>Numer of GPS fixes: 10 Time: 143302</description><Point>
+<coordinates>10.19071463,56.17237547,0</coordinates>
+</Point></Placemark><Placemark><name>11</name><description>Numer of GPS fixes: 11 Time: 143335</description><Point>
+<coordinates>10.19068851,56.1719181,0</coordinates>
+</Point></Placemark><Placemark><name>12</name><description>Numer of GPS fixes: 12 Time: 143357</description><Point>
+<coordinates>10.19084351,56.17147668,0</coordinates>
+</Point></Placemark><Placemark><name>13</name><description>Numer of GPS fixes: 13 Time: 143424</description><Point>
+<coordinates>10.19001802,56.17151012,0</coordinates>
+</Point></Placemark><Placemark><name>14</name><description>Numer of GPS fixes: 14 Time: 143457</description><Point>
+<coordinates>10.18923829,56.17163133,0</coordinates>
+</Point></Placemark><Placemark><name>15</name><description>Numer of GPS fixes: 15 Time: 143531</description><Point>
+<coordinates>10.18844399,56.17174148,0</coordinates>
+</Point></Placemark></kml>
