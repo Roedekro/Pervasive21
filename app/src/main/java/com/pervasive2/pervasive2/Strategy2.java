@@ -1,6 +1,6 @@
 package com.pervasive2.pervasive2;
 
-import android.app.Activity;
+import android.app.Activity;;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -10,122 +10,66 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by ragnar on 24/09/15.
- */
-public class Strategy2 extends Activity {
-    private long minTime = 0;
-    private float minDist = 0;
-
-    private float distance_treshold = 0;
-
-    private Location lastGoodLocation;
-
-    private LocationManager lm;
-
-    private ArrayList<Location> receivedLocationUpdates;
-    private ArrayList<Location> filteredLocations;
-
+public class Strategy2 extends Activity implements LocationListener {
+    private LocationManager locationManager;
+    private long speed = 0;
+    private long distanceInterval = 0;
+    private long updateInterval = 0;
+    private boolean b = true;
     private boolean TC = false;
-
-    private class MyLocationListener implements LocationListener {
-
-        @Override
-        public void onLocationChanged(Location location) {
-            Log.d("RJ", "location received, loc: " + location.getLatitude() + ", " + location.getLongitude());
-            receivedLocationUpdates.add(location);
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {  }
-
-        @Override
-        public void onProviderEnabled(String s) {  }
-
-        @Override
-        public void onProviderDisabled(String s) {  }
-    }
-
-
-    private SeekBar seekBar;
-    private TextView textView;
-
-
-    private void updateLocation(Location loc) {
-        if (lastGoodLocation != null) {
-
-            // Distance
-            float distance = lastGoodLocation.distanceTo(loc);
-
-            if (distance > distance_treshold){
-                lastGoodLocation = loc;
-                filteredLocations.add(loc);
-
-                // Notify that we have new location?
-            }
-
-        }
-    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_strategy2);
-        Toast.makeText(getApplicationContext(), "VERIFY TOAST WORKS?", Toast.LENGTH_SHORT).show();
-
-
-        seekBar = (SeekBar) findViewById(R.id.distanceSetting);
-        textView = (TextView) findViewById(R.id.distanceSettingView);
-        textView.setText("WORKS?");
-
-        // Initialize list
-        receivedLocationUpdates = new ArrayList<Location>();
-        filteredLocations = new ArrayList<Location>();
-
-        LocationListener listener = new MyLocationListener();
-
-        // Setup location service
-        lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDist, listener);
+        setContentView(R.layout.activity_strategy3);
 
 
 
-        textView.setText("Covered: " + seekBar.getProgress() + "/" + seekBar.getMax());
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progress = 0;
+        if(locationManager==null) {
+            Log.d("MAIN", "MAIN: LocationManager is NULL");
+        }
 
+        Log.d("MAIN","GPS enabled = "+locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
+        final Button startButton  = (Button) findViewById(R.id.startButton);
+        final Button logButton = (Button) findViewById(R.id.logButton);
+        final EditText distanceView = (EditText) findViewById(R.id.distanceText);
+        final EditText speedView = (EditText) findViewById(R.id.speedText);
+
+
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                progress = progresValue;
-                Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
-            }
+            public void onClick(View v) {
+                if(b) {
+                    startButton.setText("Stop");
+                    String dString = distanceView.getText().toString();
+                    distanceInterval = Long.parseLong(dString);
+                    String sString = speedView.getText().toString();
+                    speed = Long.parseLong(sString);
+                    updateInterval = distanceInterval / speed;
+                    startUpdates();
+                    b = false;
+                }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                textView.setText("Covered: " + progress + "/" + seekBar.getMax());
-                Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+                else {
+                    startButton.setText("Start");
+                    stopUpdates();
+                    b = true;
+                }
             }
         });
 
-        final Button logButton = (Button) findViewById(R.id.logButton);
         logButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,7 +81,38 @@ public class Strategy2 extends Activity {
     private void logTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
         String s = sdf.format(new Date());
-        generateNoteOnSD("Strategy3LogTime", s);
+        generateNoteOnSD("Strategy2LogTime", s);
+    }
+
+    private void stopUpdates() {
+        locationManager.removeUpdates(this);
+    }
+
+    private void startUpdates() {
+        locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                0,
+                0,
+                this);
+    }
+
+    // Gammel position og tid
+    private Location loc = null;
+    private int fix = 0;
+
+    @Override
+    public void onLocationChanged(Location x){
+        fix++;
+        if(loc == null || loc.distanceTo(x) > distanceInterval) {
+
+            // Opdater loc og log vores position.
+            loc = x;
+            SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+            String s = sdf.format(new Date());
+            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s + " GPSFixes: " + fix;
+            generateNoteOnSD("Strategy2", end);
+
+        }
     }
 
     public void generateNoteOnSD(String sFileName, String sBody) {
@@ -160,6 +135,23 @@ public class Strategy2 extends Activity {
         }
     }
 
+    @Override
+    public void onProviderDisabled(String provider) {
 
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+    }
 
 }

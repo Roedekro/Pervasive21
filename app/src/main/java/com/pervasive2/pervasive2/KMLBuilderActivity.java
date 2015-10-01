@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -163,6 +164,9 @@ public class KMLBuilderActivity extends ActionBarActivity {
 
             }
         }
+
+        final TextView text = (TextView) findViewById(R.id.hello);
+        text.setText("DONE!!!");
 }
 
 
@@ -184,6 +188,8 @@ public class KMLBuilderActivity extends ActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 
     @Override

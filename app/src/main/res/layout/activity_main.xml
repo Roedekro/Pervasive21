@@ -40,4 +40,13 @@
         android:layout_below="@+id/strategy3Button"
         android:layout_alignStart="@+id/strategy3Button" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="KLM"
+        android:id="@+id/kmlButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="58dp" />
+
 </RelativeLayout>

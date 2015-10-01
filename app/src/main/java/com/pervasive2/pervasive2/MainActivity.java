@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends Activity {
 
-    Button str1, str2, str3, str4;
+    Button str1, str2, str3, str4, str5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,15 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent in4 = new Intent(MainActivity.this, Strategy4.class);
                 startActivity(in4);
+            }
+        });
+
+        str5 = (Button) findViewById(R.id.kmlButton);
+        str5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in5 = new Intent(MainActivity.this, KMLBuilderActivity.class);
+                startActivity(in5);
             }
         });
 
