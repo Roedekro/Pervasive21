@@ -1,0 +1,13 @@
+Latitude: 56.17197524 Longitude: 10.18818508 Time: 142858 GPSFixes: 1
+Latitude: 56.17242504 Longitude: 10.1881357 Time: 142947 GPSFixes: 2
+Latitude: 56.17285978 Longitude: 10.18834373 Time: 143018 GPSFixes: 3
+Latitude: 56.17330264 Longitude: 10.18852794 Time: 143055 GPSFixes: 4
+Latitude: 56.17348325 Longitude: 10.18927718 Time: 143139 GPSFixes: 5
+Latitude: 56.17341635 Longitude: 10.19007521 Time: 143212 GPSFixes: 6
+Latitude: 56.17329906 Longitude: 10.19086083 Time: 143247 GPSFixes: 7
+Latitude: 56.17285008 Longitude: 10.1909314 Time: 143326 GPSFixes: 8
+Latitude: 56.17241378 Longitude: 10.19073653 Time: 143359 GPSFixes: 9
+Latitude: 56.17199707 Longitude: 10.19043466 Time: 143434 GPSFixes: 10
+Latitude: 56.17155377 Longitude: 10.19025445 Time: 143508 GPSFixes: 11
+Latitude: 56.17161313 Longitude: 10.18943739 Time: 143557 GPSFixes: 12
+Latitude: 56.17175199 Longitude: 10.18864711 Time: 143631 GPSFixes: 13
