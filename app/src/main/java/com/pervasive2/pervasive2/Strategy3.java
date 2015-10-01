@@ -54,7 +54,7 @@ public class Strategy3 extends Activity implements LocationListener {
         am = (AlarmManager)getSystemService(ALARM_SERVICE);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(localReciever,
-                new IntentFilter("finalCountdown"));
+                new IntentFilter("strat3"));
 
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -137,7 +137,8 @@ public class Strategy3 extends Activity implements LocationListener {
             generateNoteOnSD("Strategy3.txt", end);
 
             // Vent indtil der er gået "updateInterval" og slå GPS til igen.
-            Intent newIntent = new Intent("finalCountdown");
+            Intent newIntent = new Intent(this,Receiver.class);
+            newIntent.putExtra("value",3);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, newIntent,0);
             am.set(AlarmManager.RTC, System.currentTimeMillis()+(updateInterval*1000), pendingIntent);
         }

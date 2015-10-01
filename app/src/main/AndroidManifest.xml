@@ -41,6 +41,8 @@
             android:name=".KMLBuilderActivity"
             android:label="@string/title_activity_kmlbuilder" >
         </activity>
+
+        <receiver android:name="Receiver" />
     </application>
 
 </manifest>

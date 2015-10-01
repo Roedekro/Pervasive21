@@ -191,7 +191,8 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
             generateNoteOnSD("Strategy4.txt", end);
 
             // Vent indtil der er gået "updateInterval" og slå GPS til igen.
-            Intent newIntent = new Intent("strat4");
+            Intent newIntent = new Intent(this,Receiver.class);
+            newIntent.putExtra("value",4);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, newIntent,0);
             am.set(AlarmManager.RTC, System.currentTimeMillis() + (updateInterval * 1000), pendingIntent);
         }
