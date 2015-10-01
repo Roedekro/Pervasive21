@@ -46,7 +46,7 @@ public class KMLBuilderActivity extends ActionBarActivity {
                     writer.append("<name>"+c+"</name>");
                     writer.append("<description>Numer of GPS fixes: "+data[7]+" Time: "+data[5]+"</description>");
                     writer.append("<Point>\n" +
-                            "<coordinates>"+data[1]+","+data[3]+",0</coordinates>\n" +
+                            "<coordinates>"+data[3]+","+data[1]+",0</coordinates>\n" +
                             "</Point>");
                     writer.append("</Placemark>");
                 }
@@ -80,7 +80,7 @@ public class KMLBuilderActivity extends ActionBarActivity {
                     writer.append("<name>"+c+"</name>");
                     writer.append("<description>Numer of GPS fixes: "+data[7]+" Time: "+data[5]+"</description>");
                     writer.append("<Point>\n" +
-                            "<coordinates>"+data[1]+","+data[3]+",0</coordinates>\n" +
+                            "<coordinates>"+data[3]+","+data[1]+",0</coordinates>\n" +
                             "</Point>");
                     writer.append("</Placemark>");
                 }
@@ -114,7 +114,7 @@ public class KMLBuilderActivity extends ActionBarActivity {
                     writer.append("<name>"+c+"</name>");
                     writer.append("<description>Numer of GPS fixes: "+data[7]+" Time: "+data[5]+"</description>");
                     writer.append("<Point>\n" +
-                            "<coordinates>"+data[1]+","+data[3]+",0</coordinates>\n" +
+                            "<coordinates>"+data[3]+","+data[1]+",0</coordinates>\n" +
                             "</Point>");
                     writer.append("</Placemark>");
                 }
@@ -148,7 +148,7 @@ public class KMLBuilderActivity extends ActionBarActivity {
                     writer.append("<name>"+c+"</name>");
                     writer.append("<description>Numer of GPS fixes: "+data[7]+" Time: "+data[5]+"</description>");
                     writer.append("<Point>\n" +
-                            "<coordinates>"+data[1]+","+data[3]+",0</coordinates>\n" +
+                            "<coordinates>"+data[3]+","+data[1]+",0</coordinates>\n" +
                             "</Point>");
                     writer.append("</Placemark>");
                 }

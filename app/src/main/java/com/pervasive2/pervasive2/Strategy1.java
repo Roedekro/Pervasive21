@@ -1,12 +1,18 @@
 package com.pervasive2.pervasive2;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,23 +28,38 @@ public class Strategy1 extends Activity implements LocationListener {
 
     Button btnOK;
     EditText number;
-    LocationManager lm;
+    long updateInterval = 0;
+    LocationManager locationManager;
     boolean TC = false;
     boolean go = false;
+    private AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+
+    // Klasse der bliver kaldt igennem alarmen
+    private BroadcastReceiver localReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            startUpdates();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_strategy1);
 
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocalBroadcastManager.getInstance(this).registerReceiver(localReciever,
+                new IntentFilter("strat1"));
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         number = (EditText) findViewById(R.id.configText);
+        updateInterval = Long.parseLong(number.getText().toString());
+
         btnOK = (Button) findViewById(R.id.okBtn);
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                   buttonHelper(Integer.parseInt(number.getText().toString()));
+                   startUpdates();
 
             }
         });
@@ -52,15 +73,22 @@ public class Strategy1 extends Activity implements LocationListener {
         });
     }
 
+    private void stopUpdates() {
+        locationManager.removeUpdates(this);
+    }
+
+    private void startUpdates() {
+        locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                0,
+                0,
+                this);
+    }
+
     private void logTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
         String s = sdf.format(new Date());
-        generateNoteOnSD("Strategy3LogTime", s);
-    }
-
-    private void buttonHelper(int nr) {
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, nr, 0, this);
-        go = true;
+        generateNoteOnSD("Strategy1LogTime", s);
     }
 
     @Override
@@ -84,14 +112,19 @@ public class Strategy1 extends Activity implements LocationListener {
     @Override
     public void onLocationChanged(Location x) {
         fix++;
-        if(go == true) {
-            SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
-            String s = sdf.format(new Date());
+        stopUpdates();
 
-            String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s  + " GPSFixes: " + fix;
+        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+        String s = sdf.format(new Date());
 
-            generateNoteOnSD("Strategy1", end);
-        }
+        String end = "Latitude: " + x.getLatitude() + " Longitude: " + x.getLongitude() + " Time: " + s  + " GPSFixes: " + fix;
+
+        generateNoteOnSD("Strategy1", end);
+
+        Intent newIntent = new Intent("strat1");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, newIntent,0);
+        am.set(AlarmManager.RTC, System.currentTimeMillis()+(updateInterval*1000), pendingIntent);
+
     }
 
 

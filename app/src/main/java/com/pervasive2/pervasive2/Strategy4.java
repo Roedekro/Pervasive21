@@ -55,8 +55,13 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
     private BroadcastReceiver localReciever = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            while(!isMoving) {}
-            startUpdates();
+            if(!isMoving) {
+                // Bevæger os ikke, kald igen om set sekund.
+                Intent newIntent = new Intent("strat4");
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, newIntent,0);
+                am.set(AlarmManager.RTC, System.currentTimeMillis() + (1000), pendingIntent);
+            }
+            else {startUpdates();}
         }
     };
 
