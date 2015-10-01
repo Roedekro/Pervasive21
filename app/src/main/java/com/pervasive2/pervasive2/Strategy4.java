@@ -45,7 +45,7 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
 
     private boolean isMoving = false;
     private boolean TC = false;
-    private AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+    private AlarmManager am;
     private boolean b = true;
     private long distanceInterval;
     private long updateInterval;
@@ -69,6 +69,8 @@ public class Strategy4 extends Activity implements SensorEventListener, Location
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_strategy4);
+
+        am = (AlarmManager)getSystemService(ALARM_SERVICE);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(localReciever,
                 new IntentFilter("strat4"));

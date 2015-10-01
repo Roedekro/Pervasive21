@@ -35,7 +35,7 @@ public class Strategy3 extends Activity implements LocationListener {
     private long updateInterval = 0;
     private boolean b = true;
     private boolean TC = false;
-    private AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+    private AlarmManager am;
 
     // Klasse der bliver kaldt igennem alarmen
     private BroadcastReceiver localReciever = new BroadcastReceiver() {
@@ -49,6 +49,8 @@ public class Strategy3 extends Activity implements LocationListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_strategy3);
+
+        am = (AlarmManager)getSystemService(ALARM_SERVICE);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(localReciever,
                 new IntentFilter("finalCountdown"));
