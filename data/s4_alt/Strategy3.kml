@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Placemark><name>1</name><description>Numer of GPS fixes: 1 Time: 143743</description><Point>
+<coordinates>10.18799172,56.17180962,0</coordinates>
+</Point></Placemark><Placemark><name>2</name><description>Numer of GPS fixes: 2 Time: 143830</description><Point>
+<coordinates>10.18811547,56.17225474,0</coordinates>
+</Point></Placemark><Placemark><name>3</name><description>Numer of GPS fixes: 3 Time: 143903</description><Point>
+<coordinates>10.1882997,56.17278436,0</coordinates>
+</Point></Placemark><Placemark><name>4</name><description>Numer of GPS fixes: 4 Time: 143956</description><Point>
+<coordinates>10.18882101,56.17365919,0</coordinates>
+</Point></Placemark><Placemark><name>5</name><description>Numer of GPS fixes: 5 Time: 144050</description><Point>
+<coordinates>10.18957582,56.17347412,0</coordinates>
+</Point></Placemark></kml>
