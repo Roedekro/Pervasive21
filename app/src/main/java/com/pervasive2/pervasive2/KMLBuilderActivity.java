@@ -36,6 +36,10 @@ public class KMLBuilderActivity extends ActionBarActivity {
                 FileWriter writer = new FileWriter(newFile,true);
                 writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                 writer.append("<kml xmlns=\"http://www.opengis.net/kml/2.2\">");
+                writer.append("<Document id=\"pervasive2\">");
+                writer.append("<name>Strategy1.kml</name>");
+                writer.append("<visibility>1</visibility>");
+                writer.append("<open>1</open>");
 
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line;
@@ -53,6 +57,7 @@ public class KMLBuilderActivity extends ActionBarActivity {
                 }
                 br.close();
 
+                writer.append("</Document>");
                 writer.append("</kml>");
                 writer.flush();
                 writer.close();
@@ -70,6 +75,10 @@ public class KMLBuilderActivity extends ActionBarActivity {
                 FileWriter writer = new FileWriter(newFile,true);
                 writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                 writer.append("<kml xmlns=\"http://www.opengis.net/kml/2.2\">");
+                writer.append("<Document id=\"pervasive2\">");
+                writer.append("<name>Strategy2.kml</name>");
+                writer.append("<visibility>1</visibility>");
+                writer.append("<open>1</open>");
 
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line;
@@ -87,6 +96,7 @@ public class KMLBuilderActivity extends ActionBarActivity {
                 }
                 br.close();
 
+                writer.append("</Document>");
                 writer.append("</kml>");
                 writer.flush();
                 writer.close();
@@ -104,6 +114,10 @@ public class KMLBuilderActivity extends ActionBarActivity {
                 FileWriter writer = new FileWriter(newFile,true);
                 writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                 writer.append("<kml xmlns=\"http://www.opengis.net/kml/2.2\">");
+                writer.append("<Document id=\"pervasive2\">");
+                writer.append("<name>Strategy3.kml</name>");
+                writer.append("<visibility>1</visibility>");
+                writer.append("<open>1</open>");
 
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line;
@@ -121,6 +135,7 @@ public class KMLBuilderActivity extends ActionBarActivity {
                 }
                 br.close();
 
+                writer.append("</Document>");
                 writer.append("</kml>");
                 writer.flush();
                 writer.close();
@@ -138,6 +153,10 @@ public class KMLBuilderActivity extends ActionBarActivity {
                 FileWriter writer = new FileWriter(newFile,true);
                 writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                 writer.append("<kml xmlns=\"http://www.opengis.net/kml/2.2\">");
+                writer.append("<Document id=\"pervasive2\">");
+                writer.append("<name>Strategy4.kml</name>");
+                writer.append("<visibility>1</visibility>");
+                writer.append("<open>1</open>");
 
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line;
@@ -155,6 +174,7 @@ public class KMLBuilderActivity extends ActionBarActivity {
                 }
                 br.close();
 
+                writer.append("</Document>");
                 writer.append("</kml>");
                 writer.flush();
                 writer.close();
